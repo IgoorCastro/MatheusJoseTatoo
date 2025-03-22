@@ -33,7 +33,6 @@ export default async function authMiddleware(req: NextRequest) {
 
   // Login & auth
   const token = req.cookies.get('token')?.value;
-  console.log(token);
 
   // const pathnames = req.nextUrl.pathname === '/login';
   if (pathName === '/login' && token) return NextResponse.redirect(new URL('/admin', req.url)); // encaminha para '/admin' caso ja esteja logado

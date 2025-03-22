@@ -12,9 +12,11 @@ export default function Card({ capa, titulo, idPublico }: DataSchema) {
         router.push(`/portfolio/${idPublico}`);
     }
     return (
-        <div className="w-auto h-auto flex flex-col items-center">
-            <div className="w-96 h-72 max-w-[95%] relative bg-slate-600 drop-shadow-md cursor-pointer"
-                onClick={() => handleClick(idPublico)}>
+        <div 
+            className="w-auto h-auto flex flex-col items-center"
+            onClick={() => handleClick(idPublico)}
+        >
+            <div className="w-96 h-72 max-w-[95%] relative bg-slate-600 drop-shadow-md cursor-pointer">
                 <Image
                     src={capa || "/default-image.jpg"}
                     alt=""
@@ -22,10 +24,7 @@ export default function Card({ capa, titulo, idPublico }: DataSchema) {
                     className="object-cover"
                 />
             </div>
-            <h3 className="py-2 text-center cursor-pointer"
-                onClick={() => { alert("Contruir pagina de exibição") }}>{titulo || "Tatoo"}</h3>
-
-            {/* {showSlider && <Slider imageCollects={imageCollect} />} */}
+            <h3 className="py-2 text-center cursor-pointer text-lg" >{titulo || "Tatoo"}</h3>
         </div>
     );
 }

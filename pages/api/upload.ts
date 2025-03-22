@@ -5,6 +5,7 @@ import fs from 'fs';
 import pool from '../../lib/db';
 import { promisify } from 'util';
 import { Request, Response } from 'express';
+import { v4 as uuidv4 } from 'uuid';
 
 // Criamos um tipo que estende NextApiRequest e inclui `files`
 interface MulterNextApiRequest extends NextApiRequest {
@@ -76,40 +77,22 @@ const handler = async (req: MulterNextApiRequest, res: NextApiResponse) => {
         // Pegando o caminho dos arquivos enviados
         const filePaths = images.map(file => path.join('public', 'uploads', file.filename));
         const coverPath = coverFile ? path.join('public', 'uploads', coverFile.filename) : null;
+        const date = new Date();
+        const newUUID = uuidv4();
 
-        console.log(`- Request\nTitle ${title}\nDescrição: ${desc}\n Files: ${filePaths}`);
+        console.log(`- Request\nTitle ${title}\nDescrição: ${desc}\n Files: ${filePaths}`);       
 
         // Inserindo no banco de dados
-        const SQL = `INSERT INTO collection (capa, titulo, descricao) VALUES ($1, $2, $3) RETURNING *`;
-        const values = [coverPath, title, desc];
+        const SQL = `INSERT INTO collection (capa, titulo, descricao, date, collection, id_uui) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
+        const values = [coverPath, title, desc, date, filePaths, newUUID];
 
         const result = await pool.query(SQL, values);
 
-        const collectionId = result.rows[0].id; // Pegando o ID gerado
-
-        // Inserindo imagens associadas à coleção
-        if (filePaths) {
-            const insertPromises = filePaths.map(async (item) => {
-                const SQL2 = `INSERT INTO collect_image (collect_id, image) VALUES ($1, $2) RETURNING *`;
-                const values2 = [collectionId, item]; // Corrigido para inserir collectionId corretamente
-                return pool.query(SQL2, values2);
-            });
-
-            const result2 = await Promise.all(insertPromises);
-
-            res.status(200).json({
-                message: 'Upload bem-sucedido',
-                files: filePaths,
-                data: result.rows[0],
-                data2: result2[0],
-            });
-        } else {
-            res.status(200).json({
-                message: 'Upload bem-sucedido',
-                files: filePaths,
-                data: result.rows[0],
-            });
-        }
+        res.status(200).json({
+            message: 'Upload bem-sucedido',
+            files: filePaths,
+            data: result.rows[0],
+        });
     } catch (error) {
         if (error instanceof MulterError) {
             return res.status(400).json({ message: `Erro no upload: ${error.message}` });

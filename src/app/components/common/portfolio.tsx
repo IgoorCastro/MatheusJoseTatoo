@@ -3,8 +3,8 @@ import { trabalhos } from '@/app/constants/data';
 
 export default function Portfolio() {
     return (
-        <div className='relative w-full h-max flex flex-col pt-20'>
-            <div className="w-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-16">
+        <div className='relative w-full h-max flex flex-col pt-10 md:pt-20 border'>
+            <div className="w-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-10 md:gap-14">
                 {trabalhos.map((item, index) => (
                     <div key={index} className="w-auto">
                         <Card 

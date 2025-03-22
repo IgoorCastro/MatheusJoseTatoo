@@ -29,7 +29,7 @@ export default function Home() {
       <div className='w-full h-full flex flex-col'>
         <Header setSelectedPage={setSelectedPage} />
         <div className='w-full h-full flex flex-col items-center justify-around' ref={topRef}>
-          <div className='w-[85%] flex justify-center'>
+          <div className='w-full md:w-[85%] flex justify-center'>
             {renderPage()}
           </div>
           {selectedPage === 'portfolio' && (
@@ -39,7 +39,7 @@ export default function Home() {
               ↑ Voltar ao topo
             </p>
           )}
-          <div className={selectedPage === 'portfolio' ? 'py-20' : 'py-0' }>
+          <div className={selectedPage === 'portfolio' ? 'py-20' : 'py-0'}>
             <DevInfo />
           </div>
         </div>
