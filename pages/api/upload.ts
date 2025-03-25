@@ -6,6 +6,7 @@ import pool from '../../lib/db';
 import { promisify } from 'util';
 import { Request, Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
+import sharp from 'sharp'; // Importando o sharp para conversão
 
 // Criamos um tipo que estende NextApiRequest e inclui `files`
 interface MulterNextApiRequest extends NextApiRequest {
@@ -47,6 +48,17 @@ export const config = {
     },
 };
 
+// Função para converter HEIC para JPEG
+const convertHeicToJpeg = async (filePath: string, outputPath: string) => {
+    try {
+        await sharp(filePath)
+            .toFormat('jpeg') // Converte para JPEG
+            .toFile(outputPath);
+    } catch (error) {
+        throw new Error(`Erro ao converter o arquivo HEIC`);
+    }
+};
+
 // Handler principal
 const handler = async (req: MulterNextApiRequest, res: NextApiResponse) => {
     console.log('~~Upload\nReq: ', req.body);
@@ -74,16 +86,38 @@ const handler = async (req: MulterNextApiRequest, res: NextApiResponse) => {
         // Dados adicionais do body
         const { title, desc } = req.body;
 
-        // Pegando o caminho dos arquivos enviados
-        const filePaths = images.map(file => path.join('public', 'uploads', file.filename));
-        const coverPath = coverFile ? path.join('public', 'uploads', coverFile.filename) : null;
+        // Função para salvar e converter os arquivos (capa e imagens)
+        const processFiles = async (file: Express.Multer.File) => {
+            const extname = path.extname(file.originalname).toLowerCase();
+            const originalPath = path.join('public', 'uploads', file.filename);
+            let outputPath = originalPath;
+
+            // Se o arquivo for HEIC, converta para JPEG
+            if (extname === '.heic') {
+                outputPath = originalPath.replace('.heic', '.jpg');
+                await convertHeicToJpeg(originalPath, outputPath); // Converte HEIC para JPEG
+                fs.unlinkSync(originalPath); // Remove o arquivo HEIC original
+            }
+
+            return outputPath;
+        };
+
+        // Processando imagens
+        const processedImages = await Promise.all(images.map(processFiles));
+
+        // Processando a capa
+        const processedCover = coverFile ? await processFiles(coverFile) : null;
+
+        // Dados para inserção no banco de dados
+        const filePaths = processedImages; // Arquivos de imagem processados
+        const coverPath = processedCover; // Caminho da capa processada
         const date = new Date();
         const newUUID = uuidv4();
 
-        console.log(`- Request\nTitle ${title}\nDescrição: ${desc}\n Files: ${filePaths}`);       
+        console.log(`- Request\nTitle: ${title}\nDescrição: ${desc}\nFiles: ${filePaths}`);
 
         // Inserindo no banco de dados
-        const SQL = `INSERT INTO collection (capa, titulo, descricao, date, collection, id_uui) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
+        const SQL = `INSERT INTO collection (capa, titulo, descricao, data, colecao, id_uuid) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
         const values = [coverPath, title, desc, date, filePaths, newUUID];
 
         const result = await pool.query(SQL, values);

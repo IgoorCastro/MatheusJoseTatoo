@@ -88,7 +88,7 @@ export default function InputImageUpload() {
 
     return (
         <div
-            className="w-full h-full flex flex-col gap-10 justify-center items-center px-2 md:px-16  overflow-hidden"
+            className="w-full h-full flex flex-col gap-10 md:gap-4 justify-center items-center px-2 md:px-16  overflow-hidden"
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleDrop}
         >
@@ -98,13 +98,14 @@ export default function InputImageUpload() {
                     <Input 
                         type="text" 
                         placeholder="Título"
+                        className="resize-none"
                         ref={inputTitleRef}
                         onChange={(e) => {
                         titulo.current = e.target.value;
                         setErro('');
                     }} />
                 </div>
-                <div className="flex flex-row justify-start items-start gap-3 min-h-min w-full p-2 rounded-2xl border border-slate-100 overflow-x-auto">
+                <div className="flex flex-row justify-start items-start gap-3 min-h-min w-full p-1 rounded-2xl border border-slate-100 overflow-x-auto">
                     <input
                         type="file"
                         accept='image/*'

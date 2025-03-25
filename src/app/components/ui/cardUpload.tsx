@@ -9,7 +9,7 @@ export default function CardUpload({ item, inputClick }: { item: File | null, in
     <Card className="flex rounded-2xl p-0 m-0 border-none shadow-2xl h-min bg-zinc-800">
       <CardContent className="p-0 flex items-center justify-start">
         {item ?
-          <div className="relative flex justify-center items-center w-[85px] sm:w-[100px] md:w-[115px] h-[100px] sm:h-[120px] md:h-[135px]  rounded-2xl overflow-hidden">
+          <div className="relative flex justify-center items-center w-[75px] h-[90px] 2xl:w-[100px] 2xl:h-[115px] rounded-2xl overflow-hidden">
             <Image
               src={URL.createObjectURL(item)}
               fill
@@ -27,7 +27,7 @@ export default function CardUpload({ item, inputClick }: { item: File | null, in
           </div>
           :
           <div
-            className="flex items-center justify-center w-[85px] sm:w-[100px] md:w-[115px] h-[100px] sm:h-[120px] md:h-[135px] bg-zinc-800 border rounded-2xl cursor-pointer hover:animate-twist"
+            className="flex items-center justify-center w-[75px] h-[90px] 2xl:w-[100px] 2xl:h-[115px] bg-zinc-800 border rounded-2xl cursor-pointer hover:animate-twist"
             onClick={() => inputClick && inputClick()}
           >
             <Plus

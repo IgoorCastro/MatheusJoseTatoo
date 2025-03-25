@@ -1,5 +1,3 @@
-'use client'
-
 import { AppSidebar } from "@/components/ui/app-sidebar"
 import {
     Breadcrumb,
@@ -10,25 +8,23 @@ import {
 } from "@/components/ui/breadcrumb"
 import Carousel from "@/app/components/ui/carousel"
 import { Separator } from "@/components/ui/separator"
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { useSearchParams } from "next/navigation";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import Upload from './upload/page';
 import Portfolio from './portfolio/page';
 
-export default function Page() {
-    const searchParams = useSearchParams();
-    const page = searchParams?.get("page"); // retorna os parametro que acompanham page
-
-    let activeComponent: React.ReactNode = <Carousel />;
-    console.log(`Page: ${page}`);
+export async function getActiveComponent(page: string): Promise<React.ReactNode> {
     switch (page) {
-        case "portfolio":
-            activeComponent = <Portfolio />
-            break;
+        case 'portfolio':
+            return <Portfolio />
         default:
-            activeComponent = <Carousel />
-            break;
+            return <Carousel />
     }
+}
+
+export default async function Page({ searchParams }: { searchParams: { page: string } }) {
+    const { page } = await searchParams;
+
+    const activeComponent = await getActiveComponent(page);
 
     return (
         <div className="relative w-screen h-screen">
@@ -67,4 +63,3 @@ export default function Page() {
         </div>
     )
 }
-
