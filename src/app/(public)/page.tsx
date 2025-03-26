@@ -15,8 +15,6 @@ export default function Home() {
 
   const renderPage = () => {
     switch (page) {
-      case 'portfolio':
-        return <Portfolio />
       case 'sobre':
         return <Sobre />
       case 'contato':

@@ -1,3 +1,5 @@
+'use client'
+
 import { AppSidebar } from "@/components/ui/app-sidebar"
 import {
     Breadcrumb,
@@ -10,22 +12,54 @@ import Carousel from "@/app/components/ui/carousel"
 import { Separator } from "@/components/ui/separator"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import Upload from './upload/page';
-import Portfolio from './portfolio/page';
+import Portfolio from './galeria/page';
+import { DataSchema } from "@/app/constants/data";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation"
 
-export async function getActiveComponent(page: string): Promise<React.ReactNode> {
-    switch (page) {
-        case 'portfolio':
-            return <Portfolio />
-        default:
-            return <Carousel />
-    }
-}
+// export async function getActiveComponent(page: string): Promise<React.ReactNode> {
+//     switch (page) {
+//         case 'portfolio':
+//             return <Portfolio />
+//         default:
+//             return <Carousel />
+//     }
+// }
 
-export default async function Page({ searchParams }: { searchParams: { page: string } }) {
-    const { page } = await searchParams;
+export default function Page() {
+    const [portfolio, setPortfolio] = useState<DataSchema>();
+    const [activeComponent, setActiveComponent] = useState<React.ReactNode>();
+    const params = useSearchParams();
+    const page = params?.get('page') || '';
+    console.log('page: ', page)
+    useEffect(() => {
+        const fectchData = async () => {
+            try {
+                const get = await fetch('/api/getPortfolio');
 
-    const activeComponent = await getActiveComponent(page);
+                if (!get) {
+                    alert('Fetch Falhou');
+                    return;
+                }
+                const res = await get.json();
+                setPortfolio(res.data);
+                setActiveComponent(<Carousel collection={res.data} />)
+            } catch (err) { console.log(err) }
+        };
+        fectchData();
+    }, []);
+    
+    // useEffect(() => {
+    //     switch (page) {
+    //         case 'portfolio':
+    //             setActiveComponent(<Portfolio />)
+    //         default:
+    //             setActiveComponent(<Carousel collection={portfolio} />)
+    //     }
+    // }, [page])
 
+    // const portfolio = await getPortfolio();
+    console.log('portfolio: ', portfolio);
     return (
         <div className="relative w-screen h-screen">
             {page === 'upload' && (

@@ -36,17 +36,19 @@ export default async function CollectionPage({ params }: { params: { idPublico: 
     // if (trab typeof DataSchema) return <div className="absolute w-screen h-screen bg-slate-500"><p>Coleção não encontrada</p></div>;
 
     return (
-        <div className="relative w-screen h-screen flex flex-col justify-end md:justify-center items-center gap-15 bg-[#242526]">
+        <div className="relative w-screen h-screen flex flex-col justify-end md:justify-start items-center bg-[#242526]">
             {/* <h1 className="text-center text-2xl font-bold mb-4">Coleção {params.id}</h1> */}
-            <Link href="/" className="absolute z-10 left-6 top-4 flex items-center justify-center aspect-square p-1.5 border-2 border-slate-200 rounded-[50%] cursor-pointer hover:bg-[#ffffff10]">
-                {/* <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+            <div className="absolute z-20 top-0 w-full flex py-2 px-4">
+                <Link href="/" className="h-min aspect-square p-1.5 border border-slate-200 rounded-[50%] cursor-pointer bg-[#00000096] hover:bg-[#ffffff10]">
+                    {/* <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
                         <path fill="#E2E8F0" d="M195.2 195.2a64 64 0 0 1 90.496 0L512 421.504 738.304 195.2a64 64 0 0 1 90.496 90.496L602.496 512 828.8 738.304a64 64 0 0 1-90.496 90.496L512 602.496 285.696 828.8a64 64 0 0 1-90.496-90.496L421.504 512 195.2 285.696a64 64 0 0 1 0-90.496z" />
                     </svg> */}
-                <X
-                    color="rgba(226, 232, 240, 0.9)"
-                    className="size-6"
-                />
-            </Link>
+                    <X
+                        color="rgba(226, 232, 240, 0.9)"
+                        className="size-6"
+                    />
+                </Link>
+            </div>
             <Slider item={trab} />
         </div>
     );
