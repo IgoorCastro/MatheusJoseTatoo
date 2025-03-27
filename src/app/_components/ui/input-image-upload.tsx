@@ -1,6 +1,6 @@
 'use client'
 
-import CardUpload from "@/app/components/ui/cardUpload";
+import CardUpload from "@/app/_components/ui/cardUpload";
 import { Button } from "@/components/ui/button";
 // import Image from "next/image";
 import { useRef, useState } from "react";

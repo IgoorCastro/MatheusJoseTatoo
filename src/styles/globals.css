@@ -125,7 +125,7 @@ h5 {
     font-size: 1.25em;
   } /* 20px */
   p {
-    font-size: 1em;
+    font-size: 0.875em;
   } /* 16px */
 }
 
@@ -147,7 +147,7 @@ h5 {
     font-size: 1em;
   } /* 16px */
   p {
-    font-size: 0.875em;
+    font-size: 0.75em;
   } /* 14px */
 }
 
@@ -213,7 +213,7 @@ h5 {
     font-size: 0.75em;
   } /* 12px */
   p {
-    font-size: 0.75em;
+    font-size: 0.70em;
   } /* 12px */
 }
 

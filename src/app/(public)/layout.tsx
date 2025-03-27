@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/globals.css";
+import Header from "../_components/common/header";
+import DevInfo from "../_components/ui/devInfo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,13 +23,23 @@ export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
+  page: string;
 }>) {
+
+  let page = '';
+  console.log('Page Layout: ', page);
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+    <html lang="pt-br">
+      <body className={`w-screen h-screen flex flex-col ${geistSans.variable} ${geistMono.variable} antialiased`}>
+        {!page.startsWith('/galeria') && (
+          <Header page={page} />
+        )}
+        <div className="w-full h-full max-w-[100%] flex flex-col items-center justify-between">
+          {children}
+          <DevInfo />
+          <div>
+          </div>
+        </div>
       </body>
     </html>
   );

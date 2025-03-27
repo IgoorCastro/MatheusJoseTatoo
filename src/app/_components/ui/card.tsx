@@ -6,14 +6,14 @@ import Image from "next/image";
 
 export default function Card({ item }: { item: DataSchema }) {
     // Ajustar o caminho da imagem
-    console.log("item.capa: ", item.capa)
+    // console.log("item.capa: ", item.capa)
     const normalizedPath = item.capa.replace(/\\/g, '/');
 
     const capaPath = normalizedPath.startsWith("public/")
         ? '/' + normalizedPath.replace('public/', '')
         : normalizedPath;
 
-    console.log('capaPath: ', capaPath);
+    // console.log('capaPath: ', capaPath);
     // const [showSlider, setShowSlider] = useState<boolean>(false);
     const router = useRouter();
 

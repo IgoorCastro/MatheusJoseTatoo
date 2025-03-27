@@ -19,7 +19,7 @@ export default function Portfolio() {
                     return;
                 }
                 const res = await get.json();
-                console.log(res.data)
+                // console.log(res.data)
                 setTrabalhos(res.data);
             } catch (err) {
                 console.error('Erro no fetch:', err);
@@ -49,8 +49,8 @@ export default function Portfolio() {
                                 </div>
                             ))
                         )
-                            :
-                            (<p className="text-center w-full">Nenhum trabalho encontrado.</p>)
+                        :
+                        (<p className="text-center w-full">Nenhum trabalho encontrado.</p>)
                     )}
             </div>
         </div>

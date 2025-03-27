@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react';
 import Image from 'next/image';
 import Logo from '../ui/logo';
 import '@/styles/globals.css';
@@ -10,41 +9,36 @@ import {
     DropdownMenuItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from "@/app/components/ui/dropdown-menu";
+} from "@/app/_components/ui/dropdown-menu";
 import Link from 'next/link';
-
-interface NavControl {
-    setSelectedPage: (page: string) => void;
-}
+import { usePathname } from 'next/navigation';
 
 const handleRedirect = (url: string) => {
     window.open(url, '_blank');
 };
 
-export default function Header({ setSelectedPage }: NavControl) {
+export default function Header() {
 
-    const [selected, setSelected] = useState<string>('portfolio'); // startar com o conteudo inicial a ser exibida
+    const pathName = usePathname();
+    const page = pathName || '';
 
-    const setSelect = (selection: string) => {
-        setSelected(selection);
-        setSelectedPage(selection);
-    }
+    if(page.startsWith('/galeria')) return;
 
     return (
         <div className="relative h-80 w-full py-10 md:py-16 flex flex-row md:flex-col items-center justify-center gap-14 drop-shadow-md bg-[#242526]">
-            <Logo onClick={() => setSelect('portfolio')} />
+            <Logo onClick={() => window.location.href = '/'} />
             <div className='hidden md:flex flex-col gap-5'>
                 <div className='flex justify-around gap-24 text-base md:text-4xl w-full h-full'>
+                    <Link
+                        className={`transition-opacity duration-300 ${page === '' || !page ? "opacity-100" : "opacity-40"} cursor-pointer`}
+                        href="/"
+                    >Portfólio</Link>
                     <a
-                        className={`transition-opacity duration-300 ${selected === 'portfolio' ? "opacity-100" : "opacity-40"} cursor-pointer`}
-                        href="?page=portfolio"
-                    >Portfólio</a>
-                    <a
-                        className={`transition-opacity duration-300 ${selected === 'sobre' ? "opacity-100" : "opacity-40"} cursor-pointer`}
+                        className={`transition-opacity duration-300 ${page === 'sobre' ? "opacity-100" : "opacity-40"} cursor-pointer`}
                         href="?page=sobre"
                     >Sobre</a>
                     <a
-                        className={`transition-opacity duration-300 ${selected === 'contato' ? "opacity-100" : "opacity-40"} cursor-pointer`}
+                        className={`transition-opacity duration-300 ${page === 'contato' ? "opacity-100" : "opacity-40"} cursor-pointer`}
                         href="?page=contato"
                     >Contato</a>
                 </div>
@@ -85,9 +79,9 @@ export default function Header({ setSelectedPage }: NavControl) {
 
                     <DropdownMenuContent>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => setSelect('portfolio')}>Home</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => setSelect('sobre')}>Sobre</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => setSelect('contato')}>Contato</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => window.location.href = '/'}>Home</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => window.location.href = '?page=sobre'}>Sobre</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => window.location.href = '?page=contato'}>Contato</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
 

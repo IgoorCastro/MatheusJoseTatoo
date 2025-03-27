@@ -3,9 +3,9 @@
 import { useRef, useState } from 'react';
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import Logo from '@/app/components/ui/logo';
-import { Input } from '@/app/components/ui/input';
-import { Button } from '@/app/components/ui/button';
+import Logo from '@/app/_components/ui/logo';
+import { Input } from '@/app/_components/ui/input';
+import { Button } from '@/app/_components/ui/button';
 
 
 export default function Login() {

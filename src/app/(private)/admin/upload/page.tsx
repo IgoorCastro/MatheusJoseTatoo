@@ -4,7 +4,7 @@ import {
   BadgeHelpIcon,
   X,
 } from "lucide-react";
-import InputImageUpload from "@/app/components/ui/input-image-upload";
+import InputImageUpload from "@/app/_components/ui/input-image-upload";
 
 export default function Page() {
   return (
