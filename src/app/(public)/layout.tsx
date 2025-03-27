@@ -25,15 +25,11 @@ export default function RootLayout({
   children: React.ReactNode;
   page: string;
 }>) {
-
-  let page = '';
-  console.log('Page Layout: ', page);
   return (
     <html lang="pt-br">
       <body className={`w-screen h-screen flex flex-col ${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {!page.startsWith('/galeria') && (
-          <Header page={page} />
-        )}
+        <Header />
+
         <div className="w-full h-full max-w-[100%] flex flex-col items-center justify-between">
           {children}
           <DevInfo />
